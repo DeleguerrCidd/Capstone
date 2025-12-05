@@ -598,10 +598,10 @@ let autoClearEnabled = false;
 
 // Sample user data for demo
 const demoUsers = [
-    "Cidreck",
     "Cadd",
     "Cidd",
     "Cidz",
+    "Cidreck",
 ];
 
 // Simulated clock that doesn't need backend
@@ -688,26 +688,26 @@ function simulateRFIDScan() {
     }
 }
 
-// Simulated download
+// FIXED: Simulated download as CSV for Excel
 function simulateDownload() {
     if (demoLogs.length === 0) {
         alert("No data to download!");
         return false;
     }
     
-    let downloadText = "RFID Attendance Demo Log\\n";
-    downloadText += "Generated: " + new Date().toISOString() + "\\n";
-    downloadText += "Total Records: " + demoLogs.length + "\\n\\n";
+    // Create CSV content for Excel
+    let csvContent = "ID,Name,Timestamp\\n";
     
     demoLogs.forEach((entry, index) => {
-        downloadText += \`\${index + 1}. \${entry.timestamp} - \${entry.name}\\n\`;
+        csvContent += \`\${index + 1},"\${entry.name}","\${entry.timestamp}"\\n\`;
     });
     
-    const blob = new Blob([downloadText], { type: 'text/plain' });
+    // Create blob with proper CSV MIME type
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = \`rfid_demo_log_\${new Date().toISOString().slice(0,10)}.txt\`;
+    a.download = \`rfid_attendance_\${new Date().toISOString().slice(0,10)}.csv\`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
