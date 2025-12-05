@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RFID System - Pin Connections</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at top, #0a1e60, #020b24 70%);
+        color: white;
+        min-height: 100vh;
+        background-attachment: fixed;
+    }
+    
+    .header {
+        font-size: 34px;
+        font-weight: 700;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        color: #9fc9ff;
+        letter-spacing: 1px;
+        text-shadow: 0 0 8px rgba(150, 200, 255, 0.9);
+        text-align: center;
+    }
+    
+    .container { 
+        width: 92%;
+        max-width: 1200px;
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        border-radius: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(150, 180, 255, 0.1);
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 20px; 
+        justify-content: center;
+    }
+    
+    .module { 
+        border: 2px solid rgba(90, 180, 255, 0.5); 
+        border-radius: 16px;
+        padding: 20px; 
+        margin: 10px; 
+        background: rgba(255, 255, 255, 0.10); 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        min-width: 250px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(12px);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .module:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(150, 200, 255, 0.8);
+    }
+    
+    .module h3 {
+        color: #b9d9ff;
+        border-bottom: 2px solid rgba(90, 180, 255, 0.5);
+        padding-bottom: 10px;
+        margin-top: 0;
+        text-shadow: 0 0 10px rgba(100, 180, 255, 0.7);
+    }
+    
+    .pin { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        margin: 8px 0; 
+        padding: 10px;
+        background: rgba(10, 20, 60, 0.4);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .pin:hover .pin-tooltip {
+        display: block;
+    }
+    
+    .pin-tooltip {
+        display: none;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.95);
+        color: #fff;
+        padding: 12px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        width: 200px;
+        z-index: 1000;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid rgba(90, 180, 255, 0.5);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        line-height: 1.4;
+    }
+    
+    .pin-tooltip:before {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 8px solid transparent;
+        border-top-color: rgba(90, 180, 255, 0.5);
+    }
+    
+    .pin-tooltip strong {
+        color: #64ffda;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+        padding-bottom: 3px;
+    }
+    
+    .pin-label {
+        color: #d3e9ff;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .pin-value {
+        color: #d3e9ff;
+        background: rgba(80, 130, 255, 0.25);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 13px;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .connection-arrow {
+        color: #5ba6ff;
+        margin: 0 10px;
+        font-weight: bold;
+    }
+    
+    h1, h2 {
+        text-align: center;
+        color: #9fc9ff;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(150, 200, 255, 0.9);
+    }
+    
+    h1 { font-size: 2.5em; }
+    h2 { 
+        font-size: 1.8em; 
+        margin-top: 40px;
+        border-bottom: 2px solid rgba(90, 180, 255, 0.3);
+        padding-bottom: 15px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .wire-label {
+        fill: #a9ffa9;
+        font-size: 10px;
+        text-anchor: middle;
+        text-shadow: 0 0 8px rgba(169, 255, 169, 0.7);
+    }
+    
+    svg {
+        display: block;
+        margin: 40px auto;
+        border-radius: 14px;
+        background: rgba(10, 20, 60, 0.6);
+        padding: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 25px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(16px);
+    }
+    
+    .system-notes {
+        text-align: center;
+        color: #8892b0;
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.10);
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 40px auto;
+        border-left: 4px solid #5ba6ff;
+        backdrop-filter: blur(12px);
+    }
+    
+    .system-notes h3 {
+        color: #9fc9ff;
+        text-shadow: 0 0 8px rgba(150, 200, 255, 0.9);
+    }
+</style>
+</head>
+<body>
+    <div class="header">RFID Attendance System</div>
+    
+    <h2> Pin Connections</h2>
+    
+    <div class="container">
+        <div class="module">
+            <h3>ESP32-WROOM-DA</h3>
+            <div class="pin">
+                <span class="pin-label">PIN 1 (3.3V)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">VCC rail</span>
+                <div class="pin-tooltip">
+                    <strong>3.3V Power Output</strong>
+                    Supplies 3.3V to all modules. This is the main power source.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 2 (GND)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">GND rail</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Common ground connection for all modules.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 4 (GPIO22)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">I2C SCL</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock Line</strong>
+                    I2C clock signal shared between RTC and LCD.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 5 (GPIO21)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">I2C SDA</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data Address</strong>
+                    I2C data line shared between RTC and LCD.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 9 (GPIO17)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">Buzzer+</span>
+                <div class="pin-tooltip">
+                    <strong>Buzzer Signal</strong>
+                    Controls the active buzzer module.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 19 (GPIO12)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID MISO</span>
+                <div class="pin-tooltip">
+                    <strong>Master In Slave Out</strong>
+                    Data from RFID to ESP32 (SPI communication).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 20 (GPIO13)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID MOSI</span>
+                <div class="pin-tooltip">
+                    <strong>Master Out Slave In</strong>
+                    Data from ESP32 to RFID (SPI communication).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 21 (GPIO14)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID SCK</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    SPI clock signal for RFID communication.
+                </div>
+            </div>
+        </div>
+        
+        <div class="module">
+            <h3>MFRC522 (RFID)</h3>
+            <div class="pin">
+                <span class="pin-label">VCC</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">3.3V</span>
+                <div class="pin-tooltip">
+                    <strong>Voltage Common Collector</strong>
+                    Power input (+3.3V) from ESP32 Pin 1.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">GND</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GND</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Power return (-) to ESP32 Pin 2.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">RST</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO22</span>
+                <div class="pin-tooltip">
+                    <strong>Reset</strong>
+                    Reset pin controlled by ESP32 GPIO22.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SDA/SS</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO21</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data/Slave Select</strong>
+                    Chip select pin (shared with I2C SDA).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SCK</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO14</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    SPI clock signal from ESP32 GPIO14.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">MOSI</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO13</span>
+                <div class="pin-tooltip">
+                    <strong>Master Out Slave In</strong>
+                    Data from ESP32 to RFID via GPIO13.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">MISO</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO12</span>
+                <div class="pin-tooltip">
+                    <strong>Master In Slave Out</strong>
+                    Data from RFID to ESP32 via GPIO12.
+                </div>
+            </div>
+        </div>
+        
+        <div class="module">
+            <h3>DS3231 RTC Module</h3>
+            <div class="pin">
+                <span class="pin-label">VCC</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">3.3V</span>
+                <div class="pin-tooltip">
+                    <strong>Power Supply</strong>
+                    +3.3V input from ESP32 Pin 1.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">GND</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GND</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Power return to ESP32 Pin 2.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SDA</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO21</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data Address</strong>
+                    I2C data line (shared with LCD and RFID).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SCL</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO22</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    I2C clock line (shared with LCD).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">32K</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">(Optional)</span>
+                <div class="pin-tooltip">
+                    <strong>32 Kilohertz Output</strong>
+                    32,768Hz clock signal output (optional).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SQW</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">(Optional)</span>
+                <div class="pin-tooltip">
+                    <strong>Square Wave Output</strong>
+                    Programmable alarm/clock output (optional).
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rest of the modules remain the same... -->
+        <div class="module">
+            <h3>LCD 16x2 (I2C)</h3>
+            <div class="pin">VCC <span>← 3.3V/5V</span></div>
+            <div class="pin">GND <span>← GND</span></div>
+            <div class="pin">SDA <span>← GPIO21</span></div>
+            <div class="pin">SCL <span>← GPIO22</span></div>
+            <div class="pin">Address <span>0x27/0x3F</span></div>
+            <div class="pin">Backlight <span>VCC/GND</span></div>
+        </div>
+        
+        <div class="module">
+            <h3>Shared I2C Connections</h3>
+            <div class="pin">GPIO21 (SDA) <span>→ RTC SDA + LCD SDA</span></div>
+            <div class="pin">GPIO22 (SCL) <span>→ RTC SCL + LCD SCL</span></div>
+            <div class="pin">I2C Addresses <span>RTC: 0x68, LCD: 0x27</span></div>
+            <div class="pin">Pull-up Resistors <span>4.7kΩ to 3.3V</span></div>
+        </div>
+        
+        <div class="module">
+            <h3>Buzzer & Power</h3>
+            <div class="pin">Buzzer + <span>← GPIO17</span></div>
+            <div class="pin">Buzzer - <span>← GND</span></div>
+            <div class="pin">3.3V Rail <span>← ESP32 Pin 1</span></div>
+            <div class="pin">GND Rail <span>← ESP32 Pin 2</span></div>
+            <div class="pin">Total Current <span>~200-300mA</span></div>
+        </div>
+    </div>
+
+    <!-- SVG Diagram -->
+    <svg width="900" height="500">
+        <!-- ESP32 -->
+        <rect x="50" y="200" width="120" height="120" fill="rgba(17, 34, 64, 0.9)" stroke="#5ba6ff" stroke-width="2" rx="8"/>
+        <text x="110" y="230" class="label" text-anchor="middle" fill="#9fc9ff">ESP32</text>
+        <text x="110" y="250" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">WROOM-DA</text>
+        
+        <!-- RFID -->
+        <rect x="250" y="50" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ffd166" stroke-width="2" rx="8"/>
+        <text x="300" y="80" class="label" text-anchor="middle" fill="#9fc9ff">RFID</text>
+        <text x="300" y="95" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">MFRC522</text>
+        
+        <!-- RTC Module -->
+        <rect x="400" y="200" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ff9e64" stroke-width="2" rx="8"/>
+        <text x="450" y="230" class="label" text-anchor="middle" fill="#9fc9ff">RTC</text>
+        <text x="450" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">DS3231</text>
+        
+        <!-- LCD -->
+        <rect x="550" y="200" width="120" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#64ffda" stroke-width="2" rx="8"/>
+        <text x="610" y="230" class="label" text-anchor="middle" fill="#9fc9ff">LCD</text>
+        <text x="610" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">16x2 I2C</text>
+        
+        <!-- Buzzer -->
+        <rect x="250" y="350" width="100" height="60" fill="rgba(17, 34, 64, 0.9)" stroke="#a0a4ff" stroke-width="2" rx="8"/>
+        <text x="300" y="380" class="label" text-anchor="middle" fill="#9fc9ff">Buzzer</text>
+        
+        <!-- Wires - ESP32 to RFID (SPI) -->
+        <line x1="170" y1="220" x2="250" y2="100" stroke="#ffd166" stroke-width="2" fill="none"/>
+        <text x="210" y="150" class="wire-label">SPI BUS</text>
+        
+        <!-- Wires - ESP32 to RTC/LCD (I2C Bus) -->
+        <line x1="170" y1="240" x2="400" y2="240" stroke="#64ffda" stroke-width="2" fill="none"/>
+        <line x1="400" y1="240" x2="550" y2="240" stroke="#64ffda" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+        
+        <!-- Wires - ESP32 to Buzzer -->
+        <line x1="170" y1="260" x2="250" y2="380" stroke="#a0a4ff" stroke-width="2" fill="none"/>
+        <text x="210" y="320" class="wire-label">GPIO17</text>
+        
+        <!-- Power connections -->
+        <circle cx="110" cy="330" r="5" fill="#ff6b6b"/>
+        <text x="110" y="350" class="wire-label" text-anchor="middle">3.3V</text>
+        
+        <circle cx="110" cy="370" r="5" fill="#666"/>
+        <text x="110" y="390" class="wire-label" text-anchor="middle">GND</text>
+        
+        <!-- Power lines to modules -->
+        <line x1="110" y1="330" x2="300" y2="50" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="330" x2="450" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="330" x2="610" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- GND lines to modules -->
+        <line x1="110" y1="370" x2="300" y2="150" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="450" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="610" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="300" y2="410" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- Labels on I2C line -->
+        <text x="285" y="230" class="wire-label">SDA (GPIO21)</text>
+        <text x="285" y="245" class="wire-label">SCL (GPIO22)</text>
+        
+        <!-- Connection dots -->
+        <circle cx="400" cy="240" r="4" fill="#64ffda"/>
+        <circle cx="450" cy="240" r="4" fill="#ff9e64"/>
+        <circle cx="550" cy="240" r="4" fill="#64ffda"/>
+    </svg>
+    
+    <div class="system-notes">
+        <h3>📋 System Notes </h3>
+        <p><strong>I2C Addresses:</strong> DS3231 RTC uses 0x68, LCD uses 0x27 or 0x3F</p>
+        <p><strong>Shared Bus:</strong> SDA and SCL wires shared by RTC and LCD</p>
+        <p><strong>RFID Connection:</strong> RFID uses SPI and I2C together</p>
+        <p><strong>Power:</strong> All modules run on 3.3V from ESP32 Pin 1</p>
+    </div>
+</body>
+</html>
