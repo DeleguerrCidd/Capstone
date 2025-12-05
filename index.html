@@ -1,1 +1,815 @@
-<!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <title>RFID System - Pin Connections</title> <style> body { margin: 0; padding: 0; font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif; background: radial-gradient(circle at top, #0a1e60, #020b24 70%); color: white; min-height: 100vh; background-attachment: fixed; } .header { font-size: 34px; font-weight: 700; padding: 25px; background: rgba(255, 255, 255, 0.07); backdrop-filter: blur(18px); border-bottom: 1px solid rgba(255, 255, 255, 0.15); color: #9fc9ff; letter-spacing: 1px; text-shadow: 0 0 8px rgba(150, 200, 255, 0.9); text-align: center; } .container { width: 92%; max-width: 1200px; margin: 20px auto; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); padding: 25px; border-radius: 22px; border: 1px solid rgba(255, 255, 255, 0.18); box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(150, 180, 255, 0.1); display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; } .module { border: 2px solid rgba(90, 180, 255, 0.5); border-radius: 16px; padding: 20px; margin: 10px; background: rgba(255, 255, 255, 0.10); box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); min-width: 250px; transition: transform 0.3s ease, box-shadow 0.3s ease; backdrop-filter: blur(12px); position: relative; z-index: 1; } .module:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5); background: rgba(255, 255, 255, 0.15); border-color: rgba(150, 200, 255, 0.8); } .module h3 { color: #b9d9ff; border-bottom: 2px solid rgba(90, 180, 255, 0.5); padding-bottom: 10px; margin-top: 0; text-shadow: 0 0 10px rgba(100, 180, 255, 0.7); } .pin { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; padding: 10px; background: rgba(10, 20, 60, 0.4); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.1); position: relative; cursor: pointer; } .pin:hover .pin-tooltip { display: block; } .pin-tooltip { display: none; position: absolute; background: rgba(0, 0, 0, 0.95); color: #fff; padding: 12px 15px; border-radius: 8px; font-size: 13px; width: 200px; z-index: 1000; top: -80px; left: 50%; transform: translateX(-50%); border: 1px solid rgba(90, 180, 255, 0.5); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7); line-height: 1.4; } .pin-tooltip:before { content: ''; position: absolute; bottom: -8px; left: 50%; transform: translateX(-50%); border: 8px solid transparent; border-top-color: rgba(90, 180, 255, 0.5); } .pin-tooltip strong { color: #64ffda; font-size: 14px; display: block; margin-bottom: 5px; border-bottom: 1px solid rgba(100, 255, 218, 0.3); padding-bottom: 3px; } .pin-label { color: #d3e9ff; font-weight: 500; font-size: 14px; } .pin-value { color: #d3e9ff; background: rgba(80, 130, 255, 0.25); padding: 4px 10px; border-radius: 20px; font-size: 13px; min-width: 60px; text-align: center; } .connection-arrow { color: #5ba6ff; margin: 0 10px; font-weight: bold; } h1, h2 { text-align: center; color: #9fc9ff; margin-bottom: 30px; text-shadow: 0 0 10px rgba(150, 200, 255, 0.9); } h1 { font-size: 2.5em; } h2 { font-size: 1.8em; margin-top: 40px; border-bottom: 2px solid rgba(90, 180, 255, 0.3); padding-bottom: 15px; max-width: 800px; margin-left: auto; margin-right: auto; } .wire-label { fill: #a9ffa9; font-size: 10px; text-anchor: middle; text-shadow: 0 0 8px rgba(169, 255, 169, 0.7); } svg { display: block; margin: 40px auto; border-radius: 14px; background: rgba(10, 20, 60, 0.6); padding: 20px; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 25px rgba(0, 0, 0, 0.45); border: 1px solid rgba(255, 255, 255, 0.15); backdrop-filter: blur(16px); } .system-notes { text-align: center; color: #8892b0; margin-top: 30px; padding: 20px; background: rgba(255, 255, 255, 0.10); border-radius: 12px; max-width: 800px; margin: 40px auto; border-left: 4px solid #5ba6ff; backdrop-filter: blur(12px); } .system-notes h3 { color: #9fc9ff; text-shadow: 0 0 8px rgba(150, 200, 255, 0.9); } /* Demo button styles */ .demo-btn-container { text-align: center; margin: 30px auto; max-width: 800px; } .demo-btn { display: inline-block; padding: 16px 35px; border-radius: 50px; font-size: 18px; font-weight: bold; color: white; text-decoration: none; border: 2px solid rgba(255, 215, 0, 0.7); background: rgba(255, 215, 0, 0.25); backdrop-filter: blur(14px); box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3); transition: all 0.3s ease; cursor: pointer; margin: 10px; } .demo-btn:hover { background: rgba(255, 215, 0, 0.4); transform: translateY(-5px); box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4); border-color: rgba(255, 215, 0, 0.9); } .demo-btn i { margin-right: 10px; font-size: 22px; } </style> </head> <body> <div class="header">RFID Attendance System</div> <h2> Pin Connections</h2> <div class="container"> <div class="module"> <h3>ESP32-WROOM-DA</h3> <div class="pin"> <span class="pin-label">PIN 1 (3.3V)</span> <span class="connection-arrow">→</span> <span class="pin-value">VCC rail</span> <div class="pin-tooltip"> <strong>3.3V Power Output</strong> Supplies 3.3V to all modules. This is the main power source. </div> </div> <div class="pin"> <span class="pin-label">PIN 2 (GND)</span> <span class="connection-arrow">→</span> <span class="pin-value">GND rail</span> <div class="pin-tooltip"> <strong>Ground</strong> Common ground connection for all modules. </div> </div> <div class="pin"> <span class="pin-label">PIN 4 (GPIO22)</span> <span class="connection-arrow">→</span> <span class="pin-value">I2C SCL</span> <div class="pin-tooltip"> <strong>Serial Clock Line</strong> I2C clock signal shared between RTC and LCD. </div> </div> <div class="pin"> <span class="pin-label">PIN 5 (GPIO21)</span> <span class="connection-arrow">→</span> <span class="pin-value">I2C SDA</span> <div class="pin-tooltip"> <strong>Serial Data Address</strong> I2C data line shared between RTC and LCD. </div> </div> <div class="pin"> <span class="pin-label">PIN 9 (GPIO17)</span> <span class="connection-arrow">→</span> <span class="pin-value">Buzzer+</span> <div class="pin-tooltip"> <strong>Buzzer Signal</strong> Controls the active buzzer module. </div> </div> <div class="pin"> <span class="pin-label">PIN 19 (GPIO12)</span> <span class="connection-arrow">→</span> <span class="pin-value">RFID MISO</span> <div class="pin-tooltip"> <strong>Master In Slave Out</strong> Data from RFID to ESP32 (SPI communication). </div> </div> <div class="pin"> <span class="pin-label">PIN 20 (GPIO13)</span> <span class="connection-arrow">→</span> <span class="pin-value">RFID MOSI</span> <div class="pin-tooltip"> <strong>Master Out Slave In</strong> Data from ESP32 to RFID (SPI communication). </div> </div> <div class="pin"> <span class="pin-label">PIN 21 (GPIO14)</span> <span class="connection-arrow">→</span> <span class="pin-value">RFID SCK</span> <div class="pin-tooltip"> <strong>Serial Clock</strong> SPI clock signal for RFID communication. </div> </div> </div> <div class="module"> <h3>MFRC522 (RFID)</h3> <div class="pin"> <span class="pin-label">VCC</span> <span class="connection-arrow">←</span> <span class="pin-value">3.3V</span> <div class="pin-tooltip"> <strong>Voltage Common Collector</strong> Power input (+3.3V) from ESP32 Pin 1. </div> </div> <div class="pin"> <span class="pin-label">GND</span> <span class="connection-arrow">←</span> <span class="pin-value">GND</span> <div class="pin-tooltip"> <strong>Ground</strong> Power return (-) to ESP32 Pin 2. </div> </div> <div class="pin"> <span class="pin-label">RST</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO22</span> <div class="pin-tooltip"> <strong>Reset</strong> Reset pin controlled by ESP32 GPIO22. </div> </div> <div class="pin"> <span class="pin-label">SDA/SS</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO21</span> <div class="pin-tooltip"> <strong>Serial Data/Slave Select</strong> Chip select pin (shared with I2C SDA). </div> </div> <div class="pin"> <span class="pin-label">SCK</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO14</span> <div class="pin-tooltip"> <strong>Serial Clock</strong> SPI clock signal from ESP32 GPIO14. </div> </div> <div class="pin"> <span class="pin-label">MOSI</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO13</span> <div class="pin-tooltip"> <strong>Master Out Slave In</strong> Data from ESP32 to RFID via GPIO13. </div> </div> <div class="pin"> <span class="pin-label">MISO</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO12</span> <div class="pin-tooltip"> <strong>Master In Slave Out</strong> Data from RFID to ESP32 via GPIO12. </div> </div> </div> <div class="module"> <h3>DS3231 RTC Module</h3> <div class="pin"> <span class="pin-label">VCC</span> <span class="connection-arrow">←</span> <span class="pin-value">3.3V</span> <div class="pin-tooltip"> <strong>Power Supply</strong> +3.3V input from ESP32 Pin 1. </div> </div> <div class="pin"> <span class="pin-label">GND</span> <span class="connection-arrow">←</span> <span class="pin-value">GND</span> <div class="pin-tooltip"> <strong>Ground</strong> Power return to ESP32 Pin 2. </div> </div> <div class="pin"> <span class="pin-label">SDA</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO21</span> <div class="pin-tooltip"> <strong>Serial Data Address</strong> I2C data line (shared with LCD and RFID). </div> </div> <div class="pin"> <span class="pin-label">SCL</span> <span class="connection-arrow">←</span> <span class="pin-value">GPIO22</span> <div class="pin-tooltip"> <strong>Serial Clock</strong> I2C clock line (shared with LCD). </div> </div> <div class="pin"> <span class="pin-label">32K</span> <span class="connection-arrow">→</span> <span class="pin-value">(Optional)</span> <div class="pin-tooltip"> <strong>32 Kilohertz Output</strong> 32,768Hz clock signal output (optional). </div> </div> <div class="pin"> <span class="pin-label">SQW</span> <span class="connection-arrow">→</span> <span class="pin-value">(Optional)</span> <div class="pin-tooltip"> <strong>Square Wave Output</strong> Programmable alarm/clock output (optional). </div> </div> </div> <!-- Rest of the modules remain the same... --> <div class="module"> <h3>LCD 16x2 (I2C)</h3> <div class="pin">VCC <span>← 3.3V/5V</span></div> <div class="pin">GND <span>← GND</span></div> <div class="pin">SDA <span>← GPIO21</span></div> <div class="pin">SCL <span>← GPIO22</span></div> <div class="pin">Address <span>0x27/0x3F</span></div> <div class="pin">Backlight <span>VCC/GND</span></div> </div> <div class="module"> <h3>Shared I2C Connections</h3> <div class="pin">GPIO21 (SDA) <span>→ RTC SDA + LCD SDA</span></div> <div class="pin">GPIO22 (SCL) <span>→ RTC SCL + LCD SCL</span></div> <div class="pin">I2C Addresses <span>RTC: 0x68, LCD: 0x27</span></div> <div class="pin">Pull-up Resistors <span>4.7kΩ to 3.3V</span></div> </div> <div class="module"> <h3>Buzzer & Power</h3> <div class="pin">Buzzer + <span>← GPIO17</span></div> <div class="pin">Buzzer - <span>← GND</span></div> <div class="pin">3.3V Rail <span>← ESP32 Pin 1</span></div> <div class="pin">GND Rail <span>← ESP32 Pin 2</span></div> <div class="pin">Total Current <span>~200-300mA</span></div> </div> </div> <!-- SVG Diagram --> <svg width="900" height="500"> <!-- ESP32 --> <rect x="50" y="200" width="120" height="120" fill="rgba(17, 34, 64, 0.9)" stroke="#5ba6ff" stroke-width="2" rx="8"/> <text x="110" y="230" class="label" text-anchor="middle" fill="#9fc9ff">ESP32</text> <text x="110" y="250" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">WROOM-DA</text> <!-- RFID --> <rect x="250" y="50" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ffd166" stroke-width="2" rx="8"/> <text x="300" y="80" class="label" text-anchor="middle" fill="#9fc9ff">RFID</text> <text x="300" y="95" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">MFRC522</text> <!-- RTC Module --> <rect x="400" y="200" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ff9e64" stroke-width="2" rx="8"/> <text x="450" y="230" class="label" text-anchor="middle" fill="#9fc9ff">RTC</text> <text x="450" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">DS3231</text> <!-- LCD --> <rect x="550" y="200" width="120" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#64ffda" stroke-width="2" rx="8"/> <text x="610" y="230" class="label" text-anchor="middle" fill="#9fc9ff">LCD</text> <text x="610" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">16x2 I2C</text> <!-- Buzzer --> <rect x="250" y="350" width="100" height="60" fill="rgba(17, 34, 64, 0.9)" stroke="#a0a4ff" stroke-width="2" rx="8"/> <text x="300" y="380" class="label" text-anchor="middle" fill="#9fc9ff">Buzzer</text> <!-- Wires - ESP32 to RFID (SPI) --> <line x1="170" y1="220" x2="250" y2="100" stroke="#ffd166" stroke-width="2" fill="none"/> <text x="210" y="150" class="wire-label">SPI BUS</text> <!-- Wires - ESP32 to RTC/LCD (I2C Bus) --> <line x1="170" y1="240" x2="400" y2="240" stroke="#64ffda" stroke-width="2" fill="none"/> <line x1="400" y1="240" x2="550" y2="240" stroke="#64ffda" stroke-width="2" stroke-dasharray="3,3" fill="none"/> <!-- Wires - ESP32 to Buzzer --> <line x1="170" y1="260" x2="250" y2="380" stroke="#a0a4ff" stroke-width="2" fill="none"/> <text x="210" y="320" class="wire-label">GPIO17</text> <!-- Power connections --> <circle cx="110" cy="330" r="5" fill="#ff6b6b"/> <text x="110" y="350" class="wire-label" text-anchor="middle">3.3V</text> <circle cx="110" cy="370" r="5" fill="#666"/> <text x="110" y="390" class="wire-label" text-anchor="middle">GND</text> <!-- Power lines to modules --> <line x1="110" y1="330" x2="300" y2="50" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/> <line x1="110" y1="330" x2="450" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/> <line x1="110" y1="330" x2="610" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/> <!-- GND lines to modules --> <line x1="110" y1="370" x2="300" y2="150" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/> <line x1="110" y1="370" x2="450" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/> <line x1="110" y1="370" x2="610" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/> <line x1="110" y1="370" x2="300" y2="410" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/> <!-- Labels on I2C line --> <text x="285" y="230" class="wire-label">SDA (GPIO21)</text> <text x="285" y="245" class="wire-label">SCL (GPIO22)</text> <!-- Connection dots --> <circle cx="400" cy="240" r="4" fill="#64ffda"/> <circle cx="450" cy="240" r="4" fill="#ff9e64"/> <circle cx="550" cy="240" r="4" fill="#64ffda"/> </svg> <!-- Demo Button Container --> <div class="demo-btn-container"> <a href="#" class="demo-btn" onclick="openRFIDDemo()"> 🚀 Try RFID Demo System </a> <p style="color: #b9d9ff; margin-top: 10px; font-size: 14px;"> Opens a standalone RFID attendance demo in a new tab </p> </div> <div class="system-notes"> <h3>📋 System Notes </h3> <p><strong>I2C Addresses:</strong> DS3231 RTC uses 0x68, LCD uses 0x27 or 0x3F</p> <p><strong>Shared Bus:</strong> SDA and SCL wires shared by RTC and LCD</p> <p><strong>RFID Connection:</strong> RFID uses SPI and I2C together</p> <p><strong>Power:</strong> All modules run on 3.3V from ESP32 Pin 1</p> </div> <script> // Function to open RFID Demo in new tab function openRFIDDemo() { // Create demo HTML content const demoHTML = `<!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <title>RFID Portal - DEMO MODE</title> <style> body {margin:0;padding:0;font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;background:radial-gradient(circle at top,#0a1e60,#020b24 70%);color:white;text-align:center;min-height:100vh;background-attachment:fixed;} .header{font-size:34px;font-weight:700;padding:25px;background:rgba(255,255,255,0.07);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.15);color:#9fc9ff;letter-spacing:1px;text-shadow:0 0 8px rgba(150,200,255,0.9);} .real-time-clock{background:rgba(255,255,255,0.10);padding:15px;border-radius:12px;margin:15px auto;border:1px solid rgba(90,180,255,0.5);backdrop-filter:blur(12px);max-width:300px;} .clock-time{font-size:24px;font-weight:bold;color:#a9ffa9;text-shadow:0 0 10px rgba(169,255,169,0.7);} .clock-date{font-size:16px;color:#b9d9ff;margin-top:5px;} .container{width:92%;max-width:860px;margin:20px auto;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);padding:25px;border-radius:22px;border:1px solid rgba(255,255,255,0.18);box-shadow:0 10px 40px rgba(0,0,0,0.4),inset 0 0 20px rgba(150,180,255,0.1);} h2{margin-bottom:18px;font-size:28px;color:#b9d9ff;text-shadow:0 0 10px rgba(100,180,255,0.7);} pre{background:rgba(10,20,60,0.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.15);color:#d0e8ff;padding:18px;border-radius:14px;height:300px;overflow-y:scroll;box-shadow:inset 0 0 25px rgba(0,0,0,0.45);text-align:left;font-size:14px;white-space:pre-wrap;} .stats{display:flex;justify-content:space-around;background:rgba(255,255,255,0.10);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);margin-bottom:20px;backdrop-filter:blur(12px);} .stat-number{font-size:28px;font-weight:bold;color:#a9d7ff;text-shadow:0 0 12px rgba(130,200,255,0.7);} .last-scan{background:rgba(255,255,255,0.10);padding:15px;border-radius:12px;text-align:left;border-left:4px solid #5ba6ff;backdrop-filter:blur(12px);margin-bottom:20px;} .scan-data{background:rgba(10,30,80,0.6);padding:8px 12px;border-radius:8px;color:#d3e9ff;font-family:"Courier New",monospace;border:1px solid rgba(255,255,255,0.15);} .btn-container{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:25px;} .btn{padding:14px 28px;border-radius:50px;font-size:16px;font-weight:bold;color:white;text-decoration:none;border:1px solid rgba(255,255,255,0.25);background:rgba(80,130,255,0.35);backdrop-filter:blur(14px);box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:0.25s;cursor:pointer;} .btn:hover{background:rgba(120,170,255,0.55);transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.6);} .btn.danger{background:rgba(255,80,80,0.3);border-color:rgba(255,120,120,0.5);} .btn.danger:hover{background:rgba(255,120,120,0.5);} .btn.toggleac{background:rgba(150,150,150,0.45);border-color:rgba(180,180,180,0.6);} .btn.toggleac:hover{background:rgba(180,180,180,0.6);} .demo-badge{position:fixed;top:10px;right:10px;background:rgba(255,215,0,0.3);color:#ffd700;padding:5px 15px;border-radius:20px;font-size:12px;font-weight:bold;border:1px solid rgba(255,215,0,0.5);backdrop-filter:blur(10px);z-index:1000;} .demo-info{margin:10px auto;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;max-width:500px;font-size:13px;color:#a9d7ff;border:1px dashed rgba(90,180,255,0.3);} </style> <script> // Demo data storage let demoLogs = []; let autoClearEnabled = false; // Sample user data for demo const demoUsers = [ "Cadd", "Cidd", "Cidz", "Cidreck", ]; // Simulated clock that doesn't need backend function updateClock() { const now = new Date(); // Philippine Time (UTC+8) const phTime = new Date(now.getTime() + (8 * 60 * 60 * 1000)); // Format time const timeStr = phTime.toISOString().substr(11, 8); // Format date as MM/DD/YYYY const dateStr = phTime.toISOString().substr(0, 10).replace(/-/g, '/'); document.getElementById('currentDate').textContent = dateStr; document.getElementById('currentTime').textContent = timeStr; } // Simulated log refresh function refreshLogs() { const logBox = document.getElementById("logBox"); const logs = demoLogs; const totalScans = logs.length; // Build log text let logText = ""; if (totalScans === 0) { logText += "No attendance records yet.\\n"; logText += "This is a DEMO. No actual RFID hardware connected.\\n"; } else { // Show all logs (most recent last) logs.forEach((entry, index) => { logText += \`\${entry.timestamp} - \${entry.name}\\n\`; }); } logBox.textContent = logText; // Update stats document.getElementById('totalScans').textContent = totalScans; document.getElementById('activeToday').textContent = totalScans > 0 ? Math.min(totalScans, 5) : "-"; // Update last scan if (totalScans > 0) { const last = logs[logs.length - 1]; document.getElementById('lastScanData').innerHTML = \`<strong>Name:</strong> \${last.name} | <strong>Time:</strong> \${last.timestamp}\`; } else { document.getElementById('lastScanData').textContent = "No scans yet"; } } // Simulated auto-clear status check function checkAutoClearStatus() { document.getElementById("acBtn").innerText = autoClearEnabled ? "🟢 Auto Clear" : "🔴 Auto Clear"; } // Simulate RFID scan function simulateRFIDScan() { const randomUser = demoUsers[Math.floor(Math.random() * demoUsers.length)]; const now = new Date(); const phTime = new Date(now.getTime() + (8 * 60 * 60 * 1000)); const timestamp = phTime.toISOString().replace('T', ' ').substr(0, 19); demoLogs.push({ name: randomUser, timestamp: timestamp }); // Visual feedback const lastScanDiv = document.getElementById('lastScanData'); lastScanDiv.style.backgroundColor = 'rgba(100, 255, 100, 0.3)'; setTimeout(() => { lastScanDiv.style.backgroundColor = ''; }, 500); refreshLogs(); // Check auto-clear if (autoClearEnabled && demoLogs.length > 20) { demoLogs = demoLogs.slice(-15); alert("Auto-clear triggered! Kept last 15 records."); refreshLogs(); } } // FIXED: Simulated download as CSV for Excel function simulateDownload() { if (demoLogs.length === 0) { alert("No data to download!"); return false; } // Create CSV content for Excel let csvContent = "ID,Name,Timestamp\\n"; demoLogs.forEach((entry, index) => { csvContent += \`\${index + 1},"\${entry.name}","\${entry.timestamp}"\\n\`; }); // Create blob with proper CSV MIME type const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = \`rfid_attendance_\${new Date().toISOString().slice(0,10)}.csv\`; document.body.appendChild(a); a.click(); document.body.removeChild(a); URL.revokeObjectURL(url); return false; // Prevent default link behavior } // Simulated clear logs function simulateClearLogs() { if (confirm('Clear all demo attendance records?')) { demoLogs = []; refreshLogs(); alert("Demo logs cleared!"); } return false; // Prevent default link behavior } // Toggle auto-clear function toggleAutoClear() { autoClearEnabled = !autoClearEnabled; checkAutoClearStatus(); alert(\`Auto-clear \${autoClearEnabled ? 'ENABLED' : 'DISABLED'}\`); return false; // Prevent default link behavior } // Initialize demo with some sample data function initializeDemo() { // Add 3 initial demo entries for (let i = 0; i < 3; i++) { const user = demoUsers[i]; const time = new Date(Date.now() - (i * 3600000) + (8 * 60 * 60 * 1000)); const timestamp = time.toISOString().replace('T', ' ').substr(0, 19); demoLogs.push({ name: user, timestamp: timestamp }); } updateClock(); refreshLogs(); checkAutoClearStatus(); // Update clock every second setInterval(updateClock, 1000); // Auto-simulate scans every 10-30 seconds setInterval(() => { if (Math.random() > 0.7) { // 30% chance to auto-scan simulateRFIDScan(); } }, 10000); } // Initialize when page loads window.onload = initializeDemo; <\/script> </head> <body> <div class="demo-badge">DEMO MODE</div> <div class="header">RFID Attendance System</div> <div class="real-time-clock"> <div class="clock-time" id="currentTime">--:--:--</div> <div class="clock-date" id="currentDate">--/--/----</div> <div style="font-size: 12px; margin-top: 5px; color: #88ff88;">Philippine Time (UTC+8)</div> </div> <div class="container"> <h2>Attendance Records</h2> <div class="stats"> <div> <div class="stat-number" id="totalScans">0</div> <div>Total Scans</div> </div> <div> <div class="stat-number" id="activeToday">-</div> <div>Active Today</div> </div> </div> <div class="last-scan"> <h3>Last Scan:</h3> <div class="scan-data" id="lastScanData">No scans yet</div> </div> <pre id="logBox">Loading demo data...</pre> <div class="btn-container"> <a class="btn" href="#" onclick="simulateDownload()">📥 Download</a> <a class="btn" href="#" onclick="simulateRFIDScan()">📱 Simulate Scan</a> <a class="btn danger" href="#" onclick="simulateClearLogs()">🗑️ Clear Logs</a> <a class="btn toggleac" href="#" onclick="return toggleAutoClear()" id="acBtn">🟢 Auto Clear</a> </div> </div> </body> </html>`; // Open in new tab const newTab = window.open(); newTab.document.write(demoHTML); newTab.document.close(); return false; // Prevent default link behavior } </script> </body> </html>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RFID System - Pin Connections</title>
+<style>
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background: radial-gradient(circle at top, #0a1e60, #020b24 70%);
+        color: white;
+        min-height: 100vh;
+        background-attachment: fixed;
+    }
+    
+    .header {
+        font-size: 34px;
+        font-weight: 700;
+        padding: 25px;
+        background: rgba(255, 255, 255, 0.07);
+        backdrop-filter: blur(18px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+        color: #9fc9ff;
+        letter-spacing: 1px;
+        text-shadow: 0 0 8px rgba(150, 200, 255, 0.9);
+        text-align: center;
+    }
+    
+    .container { 
+        width: 92%;
+        max-width: 1200px;
+        margin: 20px auto;
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        border-radius: 22px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 20px rgba(150, 180, 255, 0.1);
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 20px; 
+        justify-content: center;
+    }
+    
+    .module { 
+        border: 2px solid rgba(90, 180, 255, 0.5); 
+        border-radius: 16px;
+        padding: 20px; 
+        margin: 10px; 
+        background: rgba(255, 255, 255, 0.10); 
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+        min-width: 250px;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        backdrop-filter: blur(12px);
+        position: relative;
+        z-index: 1;
+    }
+    
+    .module:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        background: rgba(255, 255, 255, 0.15);
+        border-color: rgba(150, 200, 255, 0.8);
+    }
+    
+    .module h3 {
+        color: #b9d9ff;
+        border-bottom: 2px solid rgba(90, 180, 255, 0.5);
+        padding-bottom: 10px;
+        margin-top: 0;
+        text-shadow: 0 0 10px rgba(100, 180, 255, 0.7);
+    }
+    
+    .pin { 
+        display: flex; 
+        justify-content: space-between; 
+        align-items: center;
+        margin: 8px 0; 
+        padding: 10px;
+        background: rgba(10, 20, 60, 0.4);
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        position: relative;
+        cursor: pointer;
+    }
+    
+    .pin:hover .pin-tooltip {
+        display: block;
+    }
+    
+    .pin-tooltip {
+        display: none;
+        position: absolute;
+        background: rgba(0, 0, 0, 0.95);
+        color: #fff;
+        padding: 12px 15px;
+        border-radius: 8px;
+        font-size: 13px;
+        width: 200px;
+        z-index: 1000;
+        top: -80px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 1px solid rgba(90, 180, 255, 0.5);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.7);
+        line-height: 1.4;
+    }
+    
+    .pin-tooltip:before {
+        content: '';
+        position: absolute;
+        bottom: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        border: 8px solid transparent;
+        border-top-color: rgba(90, 180, 255, 0.5);
+    }
+    
+    .pin-tooltip strong {
+        color: #64ffda;
+        font-size: 14px;
+        display: block;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(100, 255, 218, 0.3);
+        padding-bottom: 3px;
+    }
+    
+    .pin-label {
+        color: #d3e9ff;
+        font-weight: 500;
+        font-size: 14px;
+    }
+    
+    .pin-value {
+        color: #d3e9ff;
+        background: rgba(80, 130, 255, 0.25);
+        padding: 4px 10px;
+        border-radius: 20px;
+        font-size: 13px;
+        min-width: 60px;
+        text-align: center;
+    }
+    
+    .connection-arrow {
+        color: #5ba6ff;
+        margin: 0 10px;
+        font-weight: bold;
+    }
+    
+    h1, h2 {
+        text-align: center;
+        color: #9fc9ff;
+        margin-bottom: 30px;
+        text-shadow: 0 0 10px rgba(150, 200, 255, 0.9);
+    }
+    
+    h1 { font-size: 2.5em; }
+    h2 { 
+        font-size: 1.8em; 
+        margin-top: 40px;
+        border-bottom: 2px solid rgba(90, 180, 255, 0.3);
+        padding-bottom: 15px;
+        max-width: 800px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    
+    .wire-label {
+        fill: #a9ffa9;
+        font-size: 10px;
+        text-anchor: middle;
+        text-shadow: 0 0 8px rgba(169, 255, 169, 0.7);
+    }
+    
+    svg {
+        display: block;
+        margin: 40px auto;
+        border-radius: 14px;
+        background: rgba(10, 20, 60, 0.6);
+        padding: 20px;
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4), inset 0 0 25px rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(16px);
+    }
+    
+    .system-notes {
+        text-align: center;
+        color: #8892b0;
+        margin-top: 30px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.10);
+        border-radius: 12px;
+        max-width: 800px;
+        margin: 40px auto;
+        border-left: 4px solid #5ba6ff;
+        backdrop-filter: blur(12px);
+    }
+    
+    .system-notes h3 {
+        color: #9fc9ff;
+        text-shadow: 0 0 8px rgba(150, 200, 255, 0.9);
+    }
+    
+    /* Demo button styles */
+    .demo-btn-container {
+        text-align: center;
+        margin: 30px auto;
+        max-width: 800px;
+    }
+    
+    .demo-btn {
+        display: inline-block;
+        padding: 16px 35px;
+        border-radius: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        color: white;
+        text-decoration: none;
+        border: 2px solid rgba(255, 215, 0, 0.7);
+        background: rgba(255, 215, 0, 0.25);
+        backdrop-filter: blur(14px);
+        box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin: 10px;
+    }
+    
+    .demo-btn:hover {
+        background: rgba(255, 215, 0, 0.4);
+        transform: translateY(-5px);
+        box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+        border-color: rgba(255, 215, 0, 0.9);
+    }
+    
+    .demo-btn i {
+        margin-right: 10px;
+        font-size: 22px;
+    }
+</style>
+</head>
+<body>
+    <div class="header">RFID Attendance System</div>
+    
+    <h2> Pin Connections</h2>
+    
+    <div class="container">
+        <div class="module">
+            <h3>ESP32-WROOM-DA</h3>
+            <div class="pin">
+                <span class="pin-label">PIN 1 (3.3V)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">VCC rail</span>
+                <div class="pin-tooltip">
+                    <strong>3.3V Power Output</strong>
+                    Supplies 3.3V to all modules. This is the main power source.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 2 (GND)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">GND rail</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Common ground connection for all modules.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 4 (GPIO22)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">I2C SCL</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock Line</strong>
+                    I2C clock signal shared between RTC and LCD.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 5 (GPIO21)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">I2C SDA</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data Address</strong>
+                    I2C data line shared between RTC and LCD.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 9 (GPIO17)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">Buzzer+</span>
+                <div class="pin-tooltip">
+                    <strong>Buzzer Signal</strong>
+                    Controls the active buzzer module.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 19 (GPIO12)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID MISO</span>
+                <div class="pin-tooltip">
+                    <strong>Master In Slave Out</strong>
+                    Data from RFID to ESP32 (SPI communication).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 20 (GPIO13)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID MOSI</span>
+                <div class="pin-tooltip">
+                    <strong>Master Out Slave In</strong>
+                    Data from ESP32 to RFID (SPI communication).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">PIN 21 (GPIO14)</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">RFID SCK</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    SPI clock signal for RFID communication.
+                </div>
+            </div>
+        </div>
+        
+        <div class="module">
+            <h3>MFRC522 (RFID)</h3>
+            <div class="pin">
+                <span class="pin-label">VCC</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">3.3V</span>
+                <div class="pin-tooltip">
+                    <strong>Voltage Common Collector</strong>
+                    Power input (+3.3V) from ESP32 Pin 1.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">GND</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GND</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Power return (-) to ESP32 Pin 2.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">RST</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO22</span>
+                <div class="pin-tooltip">
+                    <strong>Reset</strong>
+                    Reset pin controlled by ESP32 GPIO22.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SDA/SS</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO21</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data/Slave Select</strong>
+                    Chip select pin (shared with I2C SDA).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SCK</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO14</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    SPI clock signal from ESP32 GPIO14.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">MOSI</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO13</span>
+                <div class="pin-tooltip">
+                    <strong>Master Out Slave In</strong>
+                    Data from ESP32 to RFID via GPIO13.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">MISO</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO12</span>
+                <div class="pin-tooltip">
+                    <strong>Master In Slave Out</strong>
+                    Data from RFID to ESP32 via GPIO12.
+                </div>
+            </div>
+        </div>
+        
+        <div class="module">
+            <h3>DS3231 RTC Module</h3>
+            <div class="pin">
+                <span class="pin-label">VCC</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">3.3V</span>
+                <div class="pin-tooltip">
+                    <strong>Power Supply</strong>
+                    +3.3V input from ESP32 Pin 1.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">GND</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GND</span>
+                <div class="pin-tooltip">
+                    <strong>Ground</strong>
+                    Power return to ESP32 Pin 2.
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SDA</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO21</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Data Address</strong>
+                    I2C data line (shared with LCD and RFID).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SCL</span>
+                <span class="connection-arrow">←</span>
+                <span class="pin-value">GPIO22</span>
+                <div class="pin-tooltip">
+                    <strong>Serial Clock</strong>
+                    I2C clock line (shared with LCD).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">32K</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">(Optional)</span>
+                <div class="pin-tooltip">
+                    <strong>32 Kilohertz Output</strong>
+                    32,768Hz clock signal output (optional).
+                </div>
+            </div>
+            <div class="pin">
+                <span class="pin-label">SQW</span>
+                <span class="connection-arrow">→</span>
+                <span class="pin-value">(Optional)</span>
+                <div class="pin-tooltip">
+                    <strong>Square Wave Output</strong>
+                    Programmable alarm/clock output (optional).
+                </div>
+            </div>
+        </div>
+        
+        <!-- Rest of the modules remain the same... -->
+        <div class="module">
+            <h3>LCD 16x2 (I2C)</h3>
+            <div class="pin">VCC <span>← 3.3V/5V</span></div>
+            <div class="pin">GND <span>← GND</span></div>
+            <div class="pin">SDA <span>← GPIO21</span></div>
+            <div class="pin">SCL <span>← GPIO22</span></div>
+            <div class="pin">Address <span>0x27/0x3F</span></div>
+            <div class="pin">Backlight <span>VCC/GND</span></div>
+        </div>
+        
+        <div class="module">
+            <h3>Shared I2C Connections</h3>
+            <div class="pin">GPIO21 (SDA) <span>→ RTC SDA + LCD SDA</span></div>
+            <div class="pin">GPIO22 (SCL) <span>→ RTC SCL + LCD SCL</span></div>
+            <div class="pin">I2C Addresses <span>RTC: 0x68, LCD: 0x27</span></div>
+            <div class="pin">Pull-up Resistors <span>4.7kΩ to 3.3V</span></div>
+        </div>
+        
+        <div class="module">
+            <h3>Buzzer & Power</h3>
+            <div class="pin">Buzzer + <span>← GPIO17</span></div>
+            <div class="pin">Buzzer - <span>← GND</span></div>
+            <div class="pin">3.3V Rail <span>← ESP32 Pin 1</span></div>
+            <div class="pin">GND Rail <span>← ESP32 Pin 2</span></div>
+            <div class="pin">Total Current <span>~200-300mA</span></div>
+        </div>
+    </div>
+
+    <!-- SVG Diagram -->
+    <svg width="900" height="500">
+        <!-- ESP32 -->
+        <rect x="50" y="200" width="120" height="120" fill="rgba(17, 34, 64, 0.9)" stroke="#5ba6ff" stroke-width="2" rx="8"/>
+        <text x="110" y="230" class="label" text-anchor="middle" fill="#9fc9ff">ESP32</text>
+        <text x="110" y="250" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">WROOM-DA</text>
+        
+        <!-- RFID -->
+        <rect x="250" y="50" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ffd166" stroke-width="2" rx="8"/>
+        <text x="300" y="80" class="label" text-anchor="middle" fill="#9fc9ff">RFID</text>
+        <text x="300" y="95" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">MFRC522</text>
+        
+        <!-- RTC Module -->
+        <rect x="400" y="200" width="100" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#ff9e64" stroke-width="2" rx="8"/>
+        <text x="450" y="230" class="label" text-anchor="middle" fill="#9fc9ff">RTC</text>
+        <text x="450" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">DS3231</text>
+        
+        <!-- LCD -->
+        <rect x="550" y="200" width="120" height="100" fill="rgba(17, 34, 64, 0.9)" stroke="#64ffda" stroke-width="2" rx="8"/>
+        <text x="610" y="230" class="label" text-anchor="middle" fill="#9fc9ff">LCD</text>
+        <text x="610" y="245" class="label" text-anchor="middle" font-size="10" fill="#b9d9ff">16x2 I2C</text>
+        
+        <!-- Buzzer -->
+        <rect x="250" y="350" width="100" height="60" fill="rgba(17, 34, 64, 0.9)" stroke="#a0a4ff" stroke-width="2" rx="8"/>
+        <text x="300" y="380" class="label" text-anchor="middle" fill="#9fc9ff">Buzzer</text>
+        
+        <!-- Wires - ESP32 to RFID (SPI) -->
+        <line x1="170" y1="220" x2="250" y2="100" stroke="#ffd166" stroke-width="2" fill="none"/>
+        <text x="210" y="150" class="wire-label">SPI BUS</text>
+        
+        <!-- Wires - ESP32 to RTC/LCD (I2C Bus) -->
+        <line x1="170" y1="240" x2="400" y2="240" stroke="#64ffda" stroke-width="2" fill="none"/>
+        <line x1="400" y1="240" x2="550" y2="240" stroke="#64ffda" stroke-width="2" stroke-dasharray="3,3" fill="none"/>
+        
+        <!-- Wires - ESP32 to Buzzer -->
+        <line x1="170" y1="260" x2="250" y2="380" stroke="#a0a4ff" stroke-width="2" fill="none"/>
+        <text x="210" y="320" class="wire-label">GPIO17</text>
+        
+        <!-- Power connections -->
+        <circle cx="110" cy="330" r="5" fill="#ff6b6b"/>
+        <text x="110" y="350" class="wire-label" text-anchor="middle">3.3V</text>
+        
+        <circle cx="110" cy="370" r="5" fill="#666"/>
+        <text x="110" y="390" class="wire-label" text-anchor="middle">GND</text>
+        
+        <!-- Power lines to modules -->
+        <line x1="110" y1="330" x2="300" y2="50" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="330" x2="450" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="330" x2="610" y2="200" stroke="#ff6b6b" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- GND lines to modules -->
+        <line x1="110" y1="370" x2="300" y2="150" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="450" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="610" y2="300" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        <line x1="110" y1="370" x2="300" y2="410" stroke="#888" stroke-width="1" stroke-dasharray="2,2"/>
+        
+        <!-- Labels on I2C line -->
+        <text x="285" y="230" class="wire-label">SDA (GPIO21)</text>
+        <text x="285" y="245" class="wire-label">SCL (GPIO22)</text>
+        
+        <!-- Connection dots -->
+        <circle cx="400" cy="240" r="4" fill="#64ffda"/>
+        <circle cx="450" cy="240" r="4" fill="#ff9e64"/>
+        <circle cx="550" cy="240" r="4" fill="#64ffda"/>
+    </svg>
+
+    <!-- Demo Button Container -->
+    <div class="demo-btn-container">
+        <a href="#" class="demo-btn" onclick="openRFIDDemo()">
+            🚀 Try RFID Demo System
+        </a>
+        <p style="color: #b9d9ff; margin-top: 10px; font-size: 14px;">
+            Opens a standalone RFID attendance demo in a new tab
+        </p>
+    </div>
+    
+    <div class="system-notes">
+        <h3>📋 System Notes </h3>
+        <p><strong>I2C Addresses:</strong> DS3231 RTC uses 0x68, LCD uses 0x27 or 0x3F</p>
+        <p><strong>Shared Bus:</strong> SDA and SCL wires shared by RTC and LCD</p>
+        <p><strong>RFID Connection:</strong> RFID uses SPI and I2C together</p>
+        <p><strong>Power:</strong> All modules run on 3.3V from ESP32 Pin 1</p>
+    </div>
+
+<script>
+// Function to open RFID Demo in new tab
+function openRFIDDemo() {
+    // Create demo HTML content
+    const demoHTML = `<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>RFID Portal - DEMO MODE</title>
+<style>
+    body {margin:0;padding:0;font-family:"Segoe UI",Tahoma,Geneva,Verdana,sans-serif;background:radial-gradient(circle at top,#0a1e60,#020b24 70%);color:white;text-align:center;min-height:100vh;background-attachment:fixed;}
+    .header{font-size:34px;font-weight:700;padding:25px;background:rgba(255,255,255,0.07);backdrop-filter:blur(18px);border-bottom:1px solid rgba(255,255,255,0.15);color:#9fc9ff;letter-spacing:1px;text-shadow:0 0 8px rgba(150,200,255,0.9);}
+    .real-time-clock{background:rgba(255,255,255,0.10);padding:15px;border-radius:12px;margin:15px auto;border:1px solid rgba(90,180,255,0.5);backdrop-filter:blur(12px);max-width:300px;}
+    .clock-time{font-size:24px;font-weight:bold;color:#a9ffa9;text-shadow:0 0 10px rgba(169,255,169,0.7);}
+    .clock-date{font-size:16px;color:#b9d9ff;margin-top:5px;}
+    .container{width:92%;max-width:860px;margin:20px auto;background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);padding:25px;border-radius:22px;border:1px solid rgba(255,255,255,0.18);box-shadow:0 10px 40px rgba(0,0,0,0.4),inset 0 0 20px rgba(150,180,255,0.1);}
+    h2{margin-bottom:18px;font-size:28px;color:#b9d9ff;text-shadow:0 0 10px rgba(100,180,255,0.7);}
+    pre{background:rgba(10,20,60,0.6);backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.15);color:#d0e8ff;padding:18px;border-radius:14px;height:300px;overflow-y:scroll;box-shadow:inset 0 0 25px rgba(0,0,0,0.45);text-align:left;font-size:14px;white-space:pre-wrap;}
+    .stats{display:flex;justify-content:space-around;background:rgba(255,255,255,0.10);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,0.15);margin-bottom:20px;backdrop-filter:blur(12px);}
+    .stat-number{font-size:28px;font-weight:bold;color:#a9d7ff;text-shadow:0 0 12px rgba(130,200,255,0.7);}
+    .last-scan{background:rgba(255,255,255,0.10);padding:15px;border-radius:12px;text-align:left;border-left:4px solid #5ba6ff;backdrop-filter:blur(12px);margin-bottom:20px;}
+    .scan-data{background:rgba(10,30,80,0.6);padding:8px 12px;border-radius:8px;color:#d3e9ff;font-family:"Courier New",monospace;border:1px solid rgba(255,255,255,0.15);}
+    .btn-container{display:flex;gap:15px;justify-content:center;flex-wrap:wrap;margin-top:25px;}
+    .btn{padding:14px 28px;border-radius:50px;font-size:16px;font-weight:bold;color:white;text-decoration:none;border:1px solid rgba(255,255,255,0.25);background:rgba(80,130,255,0.35);backdrop-filter:blur(14px);box-shadow:0 6px 20px rgba(0,0,0,0.4);transition:0.25s;cursor:pointer;}
+    .btn:hover{background:rgba(120,170,255,0.55);transform:translateY(-3px);box-shadow:0 12px 28px rgba(0,0,0,0.6);}
+    .btn.danger{background:rgba(255,80,80,0.3);border-color:rgba(255,120,120,0.5);}
+    .btn.danger:hover{background:rgba(255,120,120,0.5);}
+    .btn.toggleac{background:rgba(150,150,150,0.45);border-color:rgba(180,180,180,0.6);}
+    .btn.toggleac:hover{background:rgba(180,180,180,0.6);}
+    .demo-badge{position:fixed;top:10px;right:10px;background:rgba(255,215,0,0.3);color:#ffd700;padding:5px 15px;border-radius:20px;font-size:12px;font-weight:bold;border:1px solid rgba(255,215,0,0.5);backdrop-filter:blur(10px);z-index:1000;}
+    .demo-info{margin:10px auto;padding:10px;background:rgba(255,255,255,0.05);border-radius:8px;max-width:500px;font-size:13px;color:#a9d7ff;border:1px dashed rgba(90,180,255,0.3);}
+</style>
+<script>
+// Demo data storage
+let demoLogs = [];
+let autoClearEnabled = false;
+
+// Sample user data for demo
+const demoUsers = [
+    "Cadd",
+    "Cidd",
+    "Cidz",
+    "Cidreck",
+];
+
+// Simulated clock that doesn't need backend
+function updateClock() {
+    const now = new Date();
+    // Philippine Time (UTC+8)
+    const phTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    
+    // Format time
+    const timeStr = phTime.toISOString().substr(11, 8);
+    // Format date as MM/DD/YYYY
+    const dateStr = phTime.toISOString().substr(0, 10).replace(/-/g, '/');
+    
+    document.getElementById('currentDate').textContent = dateStr;
+    document.getElementById('currentTime').textContent = timeStr;
+}
+
+// Simulated log refresh
+function refreshLogs() {
+    const logBox = document.getElementById("logBox");
+    const logs = demoLogs;
+    const totalScans = logs.length;
+    
+    // Build log text
+    let logText = "";
+    
+    if (totalScans === 0) {
+        logText += "No attendance records yet.\\n";
+        logText += "This is a DEMO. No actual RFID hardware connected.\\n";
+    } else {
+        // Show all logs (most recent last)
+        logs.forEach((entry, index) => {
+            logText += \`\${entry.timestamp} - \${entry.name}\\n\`;
+        });
+    }
+    
+    logBox.textContent = logText;
+    
+    // Update stats
+    document.getElementById('totalScans').textContent = totalScans;
+    document.getElementById('activeToday').textContent = totalScans > 0 ? Math.min(totalScans, 5) : "-";
+    
+    // Update last scan
+    if (totalScans > 0) {
+        const last = logs[logs.length - 1];
+        document.getElementById('lastScanData').innerHTML = 
+            \`<strong>Name:</strong> \${last.name} | <strong>Time:</strong> \${last.timestamp}\`;
+    } else {
+        document.getElementById('lastScanData').textContent = "No scans yet";
+    }
+}
+
+// Simulated auto-clear status check
+function checkAutoClearStatus() {
+    document.getElementById("acBtn").innerText = autoClearEnabled ? "🟢 Auto Clear" : "🔴 Auto Clear";
+}
+
+// Simulate RFID scan
+function simulateRFIDScan() {
+    const randomUser = demoUsers[Math.floor(Math.random() * demoUsers.length)];
+    const now = new Date();
+    const phTime = new Date(now.getTime() + (8 * 60 * 60 * 1000));
+    const timestamp = phTime.toISOString().replace('T', ' ').substr(0, 19);
+    
+    demoLogs.push({
+        name: randomUser,
+        timestamp: timestamp
+    });
+    
+    // Visual feedback
+    const lastScanDiv = document.getElementById('lastScanData');
+    lastScanDiv.style.backgroundColor = 'rgba(100, 255, 100, 0.3)';
+    setTimeout(() => {
+        lastScanDiv.style.backgroundColor = '';
+    }, 500);
+    
+    refreshLogs();
+    
+    // Check auto-clear
+    if (autoClearEnabled && demoLogs.length > 20) {
+        demoLogs = demoLogs.slice(-15);
+        alert("Auto-clear triggered! Kept last 15 records.");
+        refreshLogs();
+    }
+}
+
+// FIXED: Simulated download as CSV for Excel
+function simulateDownload() {
+    if (demoLogs.length === 0) {
+        alert("No data to download!");
+        return false;
+    }
+    
+    // Create CSV content for Excel
+    let csvContent = "ID,Name,Timestamp\\n";
+    
+    demoLogs.forEach((entry, index) => {
+        csvContent += \`\${index + 1},"\${entry.name}","\${entry.timestamp}"\\n\`;
+    });
+    
+    // Create blob with proper CSV MIME type
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = \`rfid_attendance_\${new Date().toISOString().slice(0,10)}.csv\`;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    
+    return false; // Prevent default link behavior
+}
+
+// Simulated clear logs
+function simulateClearLogs() {
+    if (confirm('Clear all demo attendance records?')) {
+        demoLogs = [];
+        refreshLogs();
+        alert("Demo logs cleared!");
+    }
+    return false; // Prevent default link behavior
+}
+
+// Toggle auto-clear
+function toggleAutoClear() {
+    autoClearEnabled = !autoClearEnabled;
+    checkAutoClearStatus();
+    alert(\`Auto-clear \${autoClearEnabled ? 'ENABLED' : 'DISABLED'}\`);
+    return false; // Prevent default link behavior
+}
+
+// Initialize demo with some sample data
+function initializeDemo() {
+    // Add 3 initial demo entries
+    for (let i = 0; i < 3; i++) {
+        const user = demoUsers[i];
+        const time = new Date(Date.now() - (i * 3600000) + (8 * 60 * 60 * 1000));
+        const timestamp = time.toISOString().replace('T', ' ').substr(0, 19);
+        
+        demoLogs.push({
+            name: user,
+            timestamp: timestamp
+        });
+    }
+    
+    updateClock();
+    refreshLogs();
+    checkAutoClearStatus();
+    
+    // Update clock every second
+    setInterval(updateClock, 1000);
+    
+    // Auto-simulate scans every 10-30 seconds
+    setInterval(() => {
+        if (Math.random() > 0.7) { // 30% chance to auto-scan
+            simulateRFIDScan();
+        }
+    }, 10000);
+}
+
+// Initialize when page loads
+window.onload = initializeDemo;
+<\/script>
+</head>
+<body>
+<div class="demo-badge">DEMO MODE</div>
+<div class="header">RFID Attendance System</div>
+<div class="real-time-clock">
+    <div class="clock-time" id="currentTime">--:--:--</div>
+    <div class="clock-date" id="currentDate">--/--/----</div>
+    <div style="font-size: 12px; margin-top: 5px; color: #88ff88;">Philippine Time (UTC+8)</div>
+</div>
+<div class="container">
+    <h2>Attendance Records</h2>
+    <div class="stats">
+        <div>
+            <div class="stat-number" id="totalScans">0</div>
+            <div>Total Scans</div>
+        </div>
+        <div>
+            <div class="stat-number" id="activeToday">-</div>
+            <div>Active Today</div>
+        </div>
+    </div>
+    <div class="last-scan">
+        <h3>Last Scan:</h3>
+        <div class="scan-data" id="lastScanData">No scans yet</div>
+    </div>
+    <pre id="logBox">Loading demo data...</pre>
+    <div class="btn-container">
+        <a class="btn" href="#" onclick="simulateDownload()">📥 Download</a>
+        <a class="btn" href="#" onclick="simulateRFIDScan()">📱 Simulate Scan</a>
+        <a class="btn danger" href="#" onclick="simulateClearLogs()">🗑️ Clear Logs</a>
+        <a class="btn toggleac" href="#" onclick="return toggleAutoClear()" id="acBtn">🟢 Auto Clear</a>
+    </div>
+</div>
+</body>
+</html>`;
+
+    // Open in new tab
+    const newTab = window.open();
+    newTab.document.write(demoHTML);
+    newTab.document.close();
+    
+    return false; // Prevent default link behavior
+}
+</script>
+
+</body>
+</html>
